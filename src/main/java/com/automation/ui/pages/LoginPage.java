@@ -11,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
  * URL: https://www.saucedemo.com/
  */
 public class LoginPage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 
@@ -33,10 +32,10 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    /** Navigates to the SauceDemo login page. */
-    public void open() {
-        driver.get("https://www.saucedemo.com/");
-    }
+    // /** Navigates to the SauceDemo login page. */
+    // public void open() {
+    //     driver.get("https://www.saucedemo.com/");
+    // }
 
     /** Enters credentials and clicks the login button. */
     public void login(String username, String password) {

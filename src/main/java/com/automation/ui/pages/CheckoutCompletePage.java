@@ -11,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
  * URL: https://www.saucedemo.com/checkout-complete.html
  */
 public class CheckoutCompletePage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 

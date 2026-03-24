@@ -54,22 +54,19 @@ public class CartPage {
      * Removes a cart item by its data-test remove button attribute value.
      * Example: removeProduct("remove-sauce-labs-backpack")
      */
-    public CartPage removeProduct(String removeButtonDataTest) {
+    public void removeProduct(String removeButtonDataTest) {
         WebElement removeButton = driver.findElement(
                 org.openqa.selenium.By.cssSelector("[data-test='" + removeButtonDataTest + "']"));
         helper.click(removeButton);
-        return this;
     }
 
     /** Proceeds to the checkout information step. */
-    public CheckoutInfoPage proceedToCheckout() {
+    public void proceedToCheckout() {
         helper.click(checkoutButton);
-        return new CheckoutInfoPage(driver);
     }
 
     /** Navigates back to the inventory page. */
-    public InventoryPage continueShopping() {
+    public void continueShopping() {
         helper.click(continueShoppingButton);
-        return new InventoryPage(driver);
     }
 }

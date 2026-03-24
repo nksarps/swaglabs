@@ -13,7 +13,6 @@ import java.util.List;
  * URL: https://www.saucedemo.com/checkout-step-two.html
  */
 public class CheckoutOverviewPage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 
