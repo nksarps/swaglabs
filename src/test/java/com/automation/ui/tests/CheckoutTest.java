@@ -32,14 +32,6 @@ public class CheckoutTest extends SetUp {
         assertEquals(CheckoutData.INFO_PAGE_TITLE, checkoutInfoPage.getPageTitle());
     }
 
-    static Stream<Arguments> checkoutFormValidationScenarios() {
-        return Stream.of(
-            Arguments.of("",                    CheckoutData.LAST_NAME,  CheckoutData.POSTAL_CODE, CheckoutData.ERROR_FIRST_NAME_REQUIRED),
-            Arguments.of(CheckoutData.FIRST_NAME, "",                    CheckoutData.POSTAL_CODE, CheckoutData.ERROR_LAST_NAME_REQUIRED),
-            Arguments.of(CheckoutData.FIRST_NAME, CheckoutData.LAST_NAME, "",                      CheckoutData.ERROR_POSTAL_CODE_REQUIRED)
-        );
-    }
-
     @ParameterizedTest(name = "{3}")
     @MethodSource("checkoutFormValidationScenarios")
     @DisplayName("Incomplete checkout form shows correct validation error")
@@ -71,5 +63,13 @@ public class CheckoutTest extends SetUp {
         assertEquals(CheckoutData.COMPLETE_PAGE_TITLE, checkoutCompletePage.getPageTitle());
         assertTrue(checkoutCompletePage.isOrderConfirmed());
         assertEquals(CheckoutData.CONFIRMATION_HEADER, checkoutCompletePage.getConfirmationHeader());
+    }
+
+    static Stream<Arguments> checkoutFormValidationScenarios() {
+        return Stream.of(
+            Arguments.of("", CheckoutData.LAST_NAME,  CheckoutData.POSTAL_CODE, CheckoutData.ERROR_FIRST_NAME_REQUIRED),
+            Arguments.of(CheckoutData.FIRST_NAME, "", CheckoutData.POSTAL_CODE, CheckoutData.ERROR_LAST_NAME_REQUIRED),
+            Arguments.of(CheckoutData.FIRST_NAME, CheckoutData.LAST_NAME, "", CheckoutData.ERROR_POSTAL_CODE_REQUIRED)
+        );
     }
 }

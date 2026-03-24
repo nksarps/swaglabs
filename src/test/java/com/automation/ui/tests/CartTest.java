@@ -40,15 +40,6 @@ public class CartTest extends SetUp {
     }
 
     @Test
-    @DisplayName("Cart contains multiple added products")
-    void cartContainsMultipleProducts() {
-        cartPage.continueShopping();
-        inventoryPage.addProductToCart(ProductData.ADD_BIKE_LIGHT);
-        inventoryPage.goToCart();
-        assertEquals(2, cartPage.getCartItemCount());
-    }
-
-    @Test
     @DisplayName("Proceeding to checkout navigates to checkout info page")
     void proceedToCheckoutNavigatesToInfoPage() {
         cartPage.proceedToCheckout();

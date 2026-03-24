@@ -22,15 +22,6 @@ public class LoginTest extends SetUp {
         assertEquals(LoginData.INVENTORY_PAGE_TITLE, inventoryPage.getPageTitle());
     }
 
-    static Stream<Arguments> invalidLoginScenarios() {
-        return Stream.of(
-            Arguments.of(LoginData.LOCKED_OUT_USER,  LoginData.PASSWORD,         LoginData.ERROR_LOCKED_OUT),
-            Arguments.of(LoginData.INVALID_USERNAME,  LoginData.INVALID_PASSWORD, LoginData.ERROR_INVALID_CREDENTIALS),
-            Arguments.of("",                          LoginData.PASSWORD,         LoginData.ERROR_USERNAME_REQUIRED),
-            Arguments.of(LoginData.STANDARD_USER,     "",                         LoginData.ERROR_PASSWORD_REQUIRED)
-        );
-    }
-
     @ParameterizedTest(name = "{2}")
     @MethodSource("invalidLoginScenarios")
     @DisplayName("Invalid login attempts show correct error message")
@@ -38,5 +29,14 @@ public class LoginTest extends SetUp {
         loginPage.login(username, password);
         assertTrue(loginPage.isErrorDisplayed());
         assertEquals(expectedError, loginPage.getErrorMessage());
+    }
+
+    static Stream<Arguments> invalidLoginScenarios() {
+        return Stream.of(
+            Arguments.of(LoginData.LOCKED_OUT_USER, LoginData.PASSWORD, LoginData.ERROR_LOCKED_OUT),
+            Arguments.of(LoginData.INVALID_USERNAME, LoginData.INVALID_PASSWORD, LoginData.ERROR_INVALID_CREDENTIALS),
+            Arguments.of("", LoginData.PASSWORD, LoginData.ERROR_USERNAME_REQUIRED),
+            Arguments.of(LoginData.STANDARD_USER, "", LoginData.ERROR_PASSWORD_REQUIRED)
+        );
     }
 }
