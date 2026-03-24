@@ -7,6 +7,11 @@ import com.automation.ui.data.ProductData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,28 +32,21 @@ public class CheckoutTest extends SetUp {
         assertEquals(CheckoutData.INFO_PAGE_TITLE, checkoutInfoPage.getPageTitle());
     }
 
-    @Test
-    @DisplayName("Submitting empty form shows first name required error")
-    void emptyFormShowsFirstNameError() {
-        checkoutInfoPage.submitWithoutInfo();
-        assertTrue(checkoutInfoPage.isErrorDisplayed());
-        assertEquals(CheckoutData.ERROR_FIRST_NAME_REQUIRED, checkoutInfoPage.getErrorMessage());
+    static Stream<Arguments> checkoutFormValidationScenarios() {
+        return Stream.of(
+            Arguments.of("",                    CheckoutData.LAST_NAME,  CheckoutData.POSTAL_CODE, CheckoutData.ERROR_FIRST_NAME_REQUIRED),
+            Arguments.of(CheckoutData.FIRST_NAME, "",                    CheckoutData.POSTAL_CODE, CheckoutData.ERROR_LAST_NAME_REQUIRED),
+            Arguments.of(CheckoutData.FIRST_NAME, CheckoutData.LAST_NAME, "",                      CheckoutData.ERROR_POSTAL_CODE_REQUIRED)
+        );
     }
 
-    @Test
-    @DisplayName("Submitting without last name shows last name required error")
-    void missingLastNameShowsError() {
-        checkoutInfoPage.enterCustomerInfo(CheckoutData.FIRST_NAME, "", CheckoutData.POSTAL_CODE);
+    @ParameterizedTest(name = "{3}")
+    @MethodSource("checkoutFormValidationScenarios")
+    @DisplayName("Incomplete checkout form shows correct validation error")
+    void incompleteFormShowsValidationError(String firstName, String lastName, String postalCode, String expectedError) {
+        checkoutInfoPage.enterCustomerInfo(firstName, lastName, postalCode);
         assertTrue(checkoutInfoPage.isErrorDisplayed());
-        assertEquals(CheckoutData.ERROR_LAST_NAME_REQUIRED, checkoutInfoPage.getErrorMessage());
-    }
-
-    @Test
-    @DisplayName("Submitting without postal code shows postal code required error")
-    void missingPostalCodeShowsError() {
-        checkoutInfoPage.enterCustomerInfo(CheckoutData.FIRST_NAME, CheckoutData.LAST_NAME, "");
-        assertTrue(checkoutInfoPage.isErrorDisplayed());
-        assertEquals(CheckoutData.ERROR_POSTAL_CODE_REQUIRED, checkoutInfoPage.getErrorMessage());
+        assertEquals(expectedError, checkoutInfoPage.getErrorMessage());
     }
 
     @Test

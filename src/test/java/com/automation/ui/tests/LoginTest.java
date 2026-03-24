@@ -4,6 +4,11 @@ import com.automation.ui.base.SetUp;
 import com.automation.ui.data.LoginData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,38 +19,24 @@ public class LoginTest extends SetUp {
     @DisplayName("Standard user can log in successfully")
     void standardUserCanLogin() {
         loginPage.login(LoginData.STANDARD_USER, LoginData.PASSWORD);
-        assertEquals("Products", inventoryPage.getPageTitle());
+        assertEquals(LoginData.INVENTORY_PAGE_TITLE, inventoryPage.getPageTitle());
     }
 
-    @Test
-    @DisplayName("Locked out user sees error message")
-    void lockedOutUserSeesError() {
-        loginPage.login(LoginData.LOCKED_OUT_USER, LoginData.PASSWORD);
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(LoginData.ERROR_LOCKED_OUT, loginPage.getErrorMessage());
+    static Stream<Arguments> invalidLoginScenarios() {
+        return Stream.of(
+            Arguments.of(LoginData.LOCKED_OUT_USER,  LoginData.PASSWORD,         LoginData.ERROR_LOCKED_OUT),
+            Arguments.of(LoginData.INVALID_USERNAME,  LoginData.INVALID_PASSWORD, LoginData.ERROR_INVALID_CREDENTIALS),
+            Arguments.of("",                          LoginData.PASSWORD,         LoginData.ERROR_USERNAME_REQUIRED),
+            Arguments.of(LoginData.STANDARD_USER,     "",                         LoginData.ERROR_PASSWORD_REQUIRED)
+        );
     }
 
-    @Test
-    @DisplayName("Invalid credentials show error message")
-    void invalidCredentialsShowError() {
-        loginPage.login(LoginData.INVALID_USERNAME, LoginData.INVALID_PASSWORD);
+    @ParameterizedTest(name = "{2}")
+    @MethodSource("invalidLoginScenarios")
+    @DisplayName("Invalid login attempts show correct error message")
+    void invalidLoginShowsError(String username, String password, String expectedError) {
+        loginPage.login(username, password);
         assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(LoginData.ERROR_INVALID_CREDENTIALS, loginPage.getErrorMessage());
-    }
-
-    @Test
-    @DisplayName("Empty username shows required error")
-    void emptyUsernameShowsError() {
-        loginPage.login("", LoginData.PASSWORD);
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(LoginData.ERROR_USERNAME_REQUIRED, loginPage.getErrorMessage());
-    }
-
-    @Test
-    @DisplayName("Empty password shows required error")
-    void emptyPasswordShowsError() {
-        loginPage.login(LoginData.STANDARD_USER, "");
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(LoginData.ERROR_PASSWORD_REQUIRED, loginPage.getErrorMessage());
+        assertEquals(expectedError, loginPage.getErrorMessage());
     }
 }
