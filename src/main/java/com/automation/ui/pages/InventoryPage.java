@@ -13,7 +13,6 @@ import java.util.List;
  * URL: https://www.saucedemo.com/inventory.html
  */
 public class InventoryPage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 
