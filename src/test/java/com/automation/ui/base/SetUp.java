@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 @ExtendWith(SetUp.JulTestWatcher.class)
 public class SetUp {
-
     protected WebDriver driver;
+    private static final String APPLICATION_URL = "https://www.saucedemo.com/";
 
     static {
         /*
@@ -42,7 +42,6 @@ public class SetUp {
     }
 
     private static final Logger LOGGER = Logger.getLogger(SetUp.class.getName());
-    private static final String APPLICATION_URL = "https://www.saucedemo.com/";
 
     /**
      * Custom JUnit 5 {@link TestWatcher} that logs test results.
@@ -75,12 +74,18 @@ public class SetUp {
 
     /**
      * Initializes the WebDriver and navigates to the application URL.
-     * Set APPLICATION_URL as an environment variable or system property.
      * Pass -Dheadless=true to run in headless mode.
      */
     @BeforeEach
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
+
+        // Disables Chrome's password leak detection to prevent alert popups
+        // during tests that submit credentials (e.g. login tests).
+        options.addArguments("--disable-features=PasswordLeakDetection");
+        options.setExperimentalOption("prefs", java.util.Map.of(
+                "profile.password_manager_leak_detection", false
+        ));
 
         String headless = System.getProperty("headless");
         if ("true".equalsIgnoreCase(headless)) {
@@ -99,6 +104,7 @@ public class SetUp {
         checkoutOverviewPage = new CheckoutOverviewPage(driver);
         checkoutCompletePage = new CheckoutCompletePage(driver);
     }
+
     /** Quits the WebDriver instance after each test. */
     @AfterEach
     public void tearDown() {
