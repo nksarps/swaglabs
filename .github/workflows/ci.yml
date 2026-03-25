@@ -33,7 +33,7 @@ jobs:
             -v ${{ github.workspace }}/target:/app/target \
             --entrypoint bash \
             swaglabs-tests \
-            -c "mvn -B clean test -Dheadless=true -DtrimStackTrace=false -Dsurefire.printSummary=true"
+            -c "mvn -B test -Dheadless=true -DtrimStackTrace=false -Dsurefire.printSummary=true"
 
       - name: Generate Allure report
         if: always()
