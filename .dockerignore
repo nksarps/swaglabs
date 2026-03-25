@@ -1,0 +1,23 @@
+# Git
+.git
+.github
+.gitignore
+
+# IDE
+.idea
+*.iml
+
+# Maven build output
+target/
+
+# Allure
+.allure/
+allure-results/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+README.md
+*.log
