@@ -94,11 +94,11 @@ Docker is the recommended way to run the suite. It eliminates environment setup 
 
 ### Run all tests (headed)
 
-    mvn test
+    mvn clean test
 
 ### Run all tests (headless)
 
-    mvn test -Dheadless=true
+    mvn clean test -Dheadless=true
 
 ### Generate the Allure report
 
