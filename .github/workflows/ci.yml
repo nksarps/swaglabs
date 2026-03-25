@@ -19,25 +19,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-          cache: maven
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Verify Chrome
-        run: google-chrome --version
+      - name: Build Docker image
+        run: docker build -t swaglabs-tests .
 
-      - name: Run tests
+      - name: Run tests in container
         id: run_tests
-        env:
-          MAVEN_OPTS: "-Xmx1g"
-        run: mvn -B clean test -DtrimStackTrace=false -Dsurefire.printSummary=true -Dheadless=true
+        run: |
+          docker run --rm \
+            --shm-size=2g \
+            -v ${{ github.workspace }}/target:/app/target \
+            --entrypoint bash \
+            swaglabs-tests \
+            -c "mvn -B test -Dheadless=true -DtrimStackTrace=false -Dsurefire.printSummary=true"
 
       - name: Generate Allure report
         if: always()
-        run: mvn allure:report
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/target:/app/target \
+            --entrypoint bash \
+            swaglabs-tests \
+            -c "mvn allure:report"
 
       - name: Upload Allure report
         if: always()
