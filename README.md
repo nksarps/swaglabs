@@ -2,7 +2,15 @@
 
 A Selenium-based end-to-end UI test suite for [SauceDemo](https://www.saucedemo.com/), a demo e-commerce app by Sauce Labs. Built with Java 17, JUnit 5, and the Page Object Model pattern. Includes Docker support for zero-setup execution and Allure for rich HTML test reporting.
 
----
+
+## Overview
+
+This project automates the core user journeys of the SauceDemo web application — from logging in, browsing products, and managing the cart, through to completing a full checkout flow. The goal is to catch regressions early and validate that critical paths behave as expected across code changes.
+
+The suite is structured around the Page Object Model, keeping test logic separate from page interactions. Each test class maps to a distinct area of the application, and all tests are independent — they set up their own state and clean up after themselves via a shared base class.
+
+Docker is the recommended way to run the suite. It eliminates environment setup entirely and produces a self-hosted Allure report you can open in any browser.
+
 
 ## Tech Stack
 
@@ -16,7 +24,6 @@ A Selenium-based end-to-end UI test suite for [SauceDemo](https://www.saucedemo.
 | Docker | - | Containerized test execution |
 | Google Chrome | Latest stable | Browser under test |
 
----
 
 ## Project Structure
 
@@ -45,7 +52,6 @@ A Selenium-based end-to-end UI test suite for [SauceDemo](https://www.saucedemo.
             CartTest.java
             CheckoutTest.java
 
----
 
 ## Test Coverage
 
@@ -78,7 +84,6 @@ A Selenium-based end-to-end UI test suite for [SauceDemo](https://www.saucedemo.
 - Overview page shows the ordered item
 - Finishing the order navigates to the confirmation page with the correct header
 
----
 
 ## Running the Tests
 
@@ -101,7 +106,7 @@ A Selenium-based end-to-end UI test suite for [SauceDemo](https://www.saucedemo.
 
 The report is generated at 	arget/site/allure-maven-plugin/index.html. Open it in any browser.
 
----
+
 
 ## Running with Docker
 
@@ -124,7 +129,6 @@ Open that URL in your browser to view the full interactive Allure dashboard. To 
 2. Allure generates the HTML report from the test results
 3. A Python HTTP server serves the report on port 8080
 
----
 
 ## Design Notes
 
@@ -137,3 +141,28 @@ Open that URL in your browser to view the full interactive Allure dashboard. To 
 **Parameterized tests** - Negative and validation scenarios (invalid logins, incomplete checkout forms) use @ParameterizedTest with @MethodSource to keep test logic DRY while covering multiple input combinations in a single test method.
 
 **Allure integration** - The allure-junit5 listener captures results automatically during the Maven Surefire run. No manual annotations are required for basic pass/fail reporting.
+
+
+## Contributing
+
+Contributions are welcome. To add new tests or extend existing coverage:
+
+1. Fork the repository and create a feature branch
+2. Follow the existing patterns — new pages go in `src/main/java/.../pages/`, test data in `src/test/java/.../data/`, and test classes in `src/test/java/.../tests/`
+3. All page interactions should go through `PageHelper` to keep explicit waits consistent
+4. Run the full suite locally before opening a pull request: `mvn test -Dheadless=true`
+5. Open a pull request with a clear description of what was added or changed
+
+Please keep tests focused and independent. Each test should set up its own preconditions and not rely on the state left by another test.
+
+
+## Support
+
+This project targets [SauceDemo](https://www.saucedemo.com/), a publicly available demo app. If the app itself changes (new locators, updated flows), tests may need to be updated accordingly.
+
+For issues or questions related to this test suite, open a GitHub issue with a description of the problem and the relevant test output or stack trace. For general questions about the tools used, refer to their official documentation:
+
+- [Selenium WebDriver](https://www.selenium.dev/documentation/)
+- [JUnit 5](https://junit.org/junit5/docs/current/user-guide/)
+- [Allure Framework](https://allurereport.org/docs/)
+- [Docker](https://docs.docker.com/)
