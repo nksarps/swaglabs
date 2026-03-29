@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Checkout Tests")
 public class CheckoutTest extends SetUp {
-
     @BeforeEach
     void loginAddProductAndProceedToCheckout() {
         loginPage.login(LoginData.STANDARD_USER, LoginData.PASSWORD);

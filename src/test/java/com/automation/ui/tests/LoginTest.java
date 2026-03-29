@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Login Tests")
 public class LoginTest extends SetUp {
-
     @Test
     @DisplayName("Standard user can log in successfully")
     void standardUserCanLogin() {

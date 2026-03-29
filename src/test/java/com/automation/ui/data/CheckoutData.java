@@ -4,9 +4,6 @@ package com.automation.ui.data;
  * Test data constants for the Checkout information form.
  */
 public class CheckoutData {
-
-    private CheckoutData() {}
-
     // Valid customer info
     public static final String FIRST_NAME   = "John";
     public static final String LAST_NAME    = "Doe";

@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Cart Tests")
 public class CartTest extends SetUp {
-
     @BeforeEach
     void loginAndAddProduct() {
         loginPage.login(LoginData.STANDARD_USER, LoginData.PASSWORD);

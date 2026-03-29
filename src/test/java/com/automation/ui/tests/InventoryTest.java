@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Inventory Tests")
 public class InventoryTest extends SetUp {
-
     @BeforeEach
     void login() {
         loginPage.login(LoginData.STANDARD_USER, LoginData.PASSWORD);
@@ -49,8 +48,7 @@ public class InventoryTest extends SetUp {
     @DisplayName("User can log out from inventory page")
     void userCanLogout() {
         inventoryPage.logout();
-        assertTrue(loginPage.isErrorDisplayed() == false);
-        // After logout the login button should be present (page reloaded to login)
+        assertFalse(loginPage.isErrorDisplayed());
         assertDoesNotThrow(() -> loginPage.login(LoginData.STANDARD_USER, LoginData.PASSWORD));
     }
 }
