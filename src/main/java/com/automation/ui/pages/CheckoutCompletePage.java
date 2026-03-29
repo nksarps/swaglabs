@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 
 /**
  * Page Object for the Checkout Complete (confirmation) page.
- * URL: https://www.saucedemo.com/checkout-complete.html
  */
 public class CheckoutCompletePage {
     private final WebDriver driver;
@@ -19,12 +18,6 @@ public class CheckoutCompletePage {
 
     @FindBy(className = "complete-header")
     private WebElement confirmationHeader;
-
-    @FindBy(className = "complete-text")
-    private WebElement confirmationText;
-
-    @FindBy(css = "[data-test='back-to-products']")
-    private WebElement backToProductsButton;
 
     public CheckoutCompletePage(WebDriver driver) {
         this.driver = driver;
@@ -42,18 +35,9 @@ public class CheckoutCompletePage {
         return helper.getText(confirmationHeader);
     }
 
-    /** Returns the confirmation body text. */
-    public String getConfirmationText() {
-        return helper.getText(confirmationText);
-    }
-
     /** Returns true if the confirmation header is displayed. */
     public boolean isOrderConfirmed() {
         return helper.isDisplayed(confirmationHeader);
     }
 
-    /** Navigates back to the products/inventory page. */
-    public void backToProducts() {
-        helper.click(backToProductsButton);
-    }
 }

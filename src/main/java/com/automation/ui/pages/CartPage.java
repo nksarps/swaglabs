@@ -10,10 +10,8 @@ import java.util.List;
 
 /**
  * Page Object for the SauceDemo Cart page.
- * URL: https://www.saucedemo.com/cart.html
  */
 public class CartPage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 
@@ -26,9 +24,6 @@ public class CartPage {
     @FindBy(css = "[data-test='checkout']")
     private WebElement checkoutButton;
 
-    @FindBy(css = "[data-test='continue-shopping']")
-    private WebElement continueShoppingButton;
-
     public CartPage(WebDriver driver) {
         this.driver = driver;
         this.helper = new PageHelper(driver);
@@ -38,11 +33,6 @@ public class CartPage {
     /** Returns the page title text (e.g. "Your Cart"). */
     public String getPageTitle() {
         return helper.getText(pageTitle);
-    }
-
-    /** Returns all cart item elements. */
-    public List<WebElement> getCartItems() {
-        return cartItems;
     }
 
     /** Returns the number of items currently in the cart. */
@@ -65,8 +55,4 @@ public class CartPage {
         helper.click(checkoutButton);
     }
 
-    /** Navigates back to the inventory page. */
-    public void continueShopping() {
-        helper.click(continueShoppingButton);
-    }
 }

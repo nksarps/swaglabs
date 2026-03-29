@@ -69,11 +69,4 @@ public class PageHelper {
             return false;
         }
     }
-
-    /**
-     * Waits for an element to be visible and returns it.
-     */
-    public WebElement waitForVisibility(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
-    }
 }

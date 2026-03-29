@@ -8,10 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 
 /**
  * Page Object for Checkout Step One — customer information entry.
- * URL: https://www.saucedemo.com/checkout-step-one.html
  */
 public class CheckoutInfoPage {
-
     private final WebDriver driver;
     private final PageHelper helper;
 
@@ -29,9 +27,6 @@ public class CheckoutInfoPage {
 
     @FindBy(css = "[data-test='continue']")
     private WebElement continueButton;
-
-    @FindBy(css = "[data-test='cancel']")
-    private WebElement cancelButton;
 
     @FindBy(css = "[data-test='error']")
     private WebElement errorMessage;
@@ -55,11 +50,6 @@ public class CheckoutInfoPage {
         helper.click(continueButton);
     }
 
-    /** Submits the form without filling it in (useful for validation testing). */
-    public void submitWithoutInfo() {
-        helper.click(continueButton);
-    }
-
     /** Returns the validation error message text. */
     public String getErrorMessage() {
         return helper.getText(errorMessage);
@@ -68,10 +58,5 @@ public class CheckoutInfoPage {
     /** Returns true if the error message is visible. */
     public boolean isErrorDisplayed() {
         return helper.isDisplayed(errorMessage);
-    }
-
-    /** Cancels checkout and returns to the cart. */
-    public void cancelCheckout() {
-        helper.click(cancelButton);
     }
 }

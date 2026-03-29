@@ -6,11 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import org.openqa.selenium.By;
+
 import java.util.List;
 
 /**
  * Page Object for the SauceDemo Inventory (Products) page.
- * URL: https://www.saucedemo.com/inventory.html
  */
 public class InventoryPage {
     private final WebDriver driver;
@@ -27,9 +28,6 @@ public class InventoryPage {
 
     @FindBy(className = "shopping_cart_badge")
     private WebElement cartBadge;
-
-    @FindBy(css = "[data-test='product-sort-container']")
-    private WebElement sortDropdown;
 
     @FindBy(id = "react-burger-menu-btn")
     private WebElement burgerMenuButton;
@@ -48,11 +46,6 @@ public class InventoryPage {
         return helper.getText(pageTitle);
     }
 
-    /** Returns all inventory item elements on the page. */
-    public List<WebElement> getAllProducts() {
-        return inventoryItems;
-    }
-
     /** Returns the number of products displayed. */
     public int getProductCount() {
         return inventoryItems.size();
@@ -63,8 +56,7 @@ public class InventoryPage {
      * Example: addProductToCart("add-to-cart-sauce-labs-backpack")
      */
     public void addProductToCart(String addButtonDataTest) {
-        WebElement addButton = driver.findElement(
-                org.openqa.selenium.By.cssSelector("[data-test='" + addButtonDataTest + "']"));
+        WebElement addButton = driver.findElement(By.cssSelector("[data-test='" + addButtonDataTest + "']"));
         helper.click(addButton);
     }
 

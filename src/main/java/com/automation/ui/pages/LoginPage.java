@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 
 /**
  * Page Object for the SauceDemo Login page.
- * URL: https://www.saucedemo.com/
  */
 public class LoginPage {
     private final WebDriver driver;
@@ -32,20 +31,8 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    // /** Navigates to the SauceDemo login page. */
-    // public void open() {
-    //     driver.get("https://www.saucedemo.com/");
-    // }
-
     /** Enters credentials and clicks the login button. */
     public void login(String username, String password) {
-        helper.type(usernameField, username);
-        helper.type(passwordField, password);
-        helper.click(loginButton);
-    }
-
-    /** Attempts login expecting it to fail (e.g. for negative tests). */
-    public void loginExpectingFailure(String username, String password) {
         helper.type(usernameField, username);
         helper.type(passwordField, password);
         helper.click(loginButton);
